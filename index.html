@@ -134,22 +134,16 @@
 
                 <!-- 頂部標題與日期控制列 (濃縮於單一橫列) -->
                 <header class="flex items-center justify-between border-b border-stone-200 pb-1.5 shrink-0 gap-2">
-                    <div class="flex items-center gap-2.5 min-w-0">
-                        <!-- 落款朱印 (放大圖章與字體) -->
-                        <div class="hanko-stamp w-9 h-9 rounded-sm flex flex-col items-center justify-center text-[11px] tracking-tighter shrink-0">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <!-- 落款朱印 -->
+                        <div class="hanko-stamp w-8 h-8 rounded-sm flex flex-col items-center justify-center text-[10px] tracking-tighter shrink-0">
                             <span>嚴選</span>
                             <span>食材</span>
                         </div>
                         <div class="truncate">
-                            <div class="flex items-center gap-2">
-                                <h1 class="text-lg sm:text-xl font-bold tracking-widest text-sumi leading-tight truncate">
-                                    午餐菜單
-                                </h1>
-                                <span class="px-1.5 py-0.5 text-xs tracking-wider bg-indigoJp text-white rounded-sm shrink-0">
-                                    {{ schoolId }}
-                                </span>
-                            </div>
-                          
+                            <h1 class="text-base sm:text-lg font-bold tracking-widest text-sumi leading-tight truncate">
+                                午餐菜單
+                            </h1>
                         </div>
                     </div>
 
@@ -174,14 +168,14 @@
                             <div class="absolute inset-0 rounded-full border-2 border-stone-200 border-t-enji animate-spin"></div>
                             <span class="text-xs text-stone-500">餐</span>
                         </div>
-                        <p class="text-sm text-stone-500 tracking-widest animate-pulse">正在載入菜單...</p>
+                        <p class="text-sm text-stone-500 tracking-widest animate-pulse">正在載入今日菜單...</p>
                     </div>
 
                     <!-- 有供餐資料時顯示 -->
                     <div v-else-if="info.data && info.data.length > 0" class="flex-1 flex flex-col justify-between overflow-hidden animate-fade-in">
                         
-                        <!-- 廚房 / 供餐單位選擇器 (字體放大) -->
-                        <div class="bg-stone-50 px-2.5 py-1 rounded border border-stone-200/80 flex items-center justify-between gap-2 shrink-0 mb-1.5">
+                        <!-- 廚房 / 供餐單位選擇器 (靠左排列、文字置左) -->
+                        <div class="bg-stone-50 px-2.5 py-1 rounded border border-stone-200/80 flex items-center justify-start gap-2 shrink-0 mb-1.5">
                             <label for="KitchenName" class="text-sm font-bold text-stone-700 tracking-wider flex items-center gap-1.5 shrink-0">
                                 <span class="w-1 h-3.5 bg-indigoJp rounded-sm inline-block"></span>
                                 午餐供餐：
@@ -189,7 +183,7 @@
                             <select 
                                 id="KitchenName" 
                                 v-model="selectedBatchdataId"
-                                class="jp-select flex-1 max-w-[280px] bg-white border border-stone-300 text-sumi text-sm font-medium rounded px-2.5 py-0.5 pr-6 focus:outline-none focus:border-indigoJp transition cursor-pointer truncate"
+                                class="jp-select w-auto max-w-[320px] bg-white border border-stone-300 text-sumi text-sm font-medium text-left rounded px-2.5 py-0.5 pr-6 focus:outline-none focus:border-indigoJp transition cursor-pointer truncate"
                             >
                                 <option v-if="info.data.length > 1" value="000000" disabled>── 請選擇供餐廚房 ──</option>
                                 <option v-for="option in info.data" :key="option.BatchDataId" :value="option.BatchDataId">
@@ -300,20 +294,6 @@
                     loading: true,
                     menuLoading: false
                 };
-            },
-            computed: {
-                // 將日期轉換為繁體中文格式（附帶星期幾）
-                formattedChineseDate() {
-                    if (!this.selectedDate) return '';
-                    const parts = this.selectedDate.split('-');
-                    if (parts.length !== 3) return this.selectedDate;
-                    
-                    const dateObj = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
-                    const weekList = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-                    const weekDay = weekList[dateObj.getDay()];
-                    
-                    return `${parts[0]}年${Number(parts[1])}月${Number(parts[2])}日（${weekDay}）`;
-                }
             },
             watch: {
                 // 當使用者切換下拉選單的廚房 (selectedBatchdataId) 時，自動取得對應菜單
