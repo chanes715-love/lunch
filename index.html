@@ -43,19 +43,21 @@
             font-family: 'Noto Serif TC', serif;
             background-color: #FFFFFF;
             color: #2B2B2B;
+            margin: 0;
+            padding: 0;
         }
 
-        /* 直書文字特效 */
-        .writing-vertical {
-            writing-mode: vertical-rl;
-            text-orientation: upright;
-            letter-spacing: 0.25em;
+        /* 固定高度 300px 專用容器 */
+        .widget-300 {
+            height: 300px;
+            max-height: 300px;
+            box-sizing: border-box;
         }
 
-        /* 日式木牌陰影與邊框（搭配純白背景微調為清爽白底） */
+        /* 日式木牌陰影與邊框（純白底緊湊版） */
         .kondate-card {
             background-color: #FFFFFF;
-            box-shadow: 0 12px 32px -10px rgba(43, 43, 43, 0.1), 0 0 1px 1px rgba(139, 109, 76, 0.25);
+            box-shadow: 0 4px 14px -4px rgba(43, 43, 43, 0.08), 0 0 1px 1px rgba(139, 109, 76, 0.25);
             position: relative;
         }
 
@@ -67,254 +69,211 @@
         .kondate-inner-border::before {
             content: '';
             position: absolute;
-            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            top: 2px; left: 2px; right: 2px; bottom: 2px;
             border: 1px solid #E6DEC8;
             pointer-events: none;
         }
 
-        /* 印章 (Hanko) 樣式 */
+        /* 印章 (Hanko) 迷你樣式 */
         .hanko-stamp {
-            border: 2px solid #B83B2A;
+            border: 1.5px solid #B83B2A;
             color: #B83B2A;
             font-weight: 900;
-            line-height: 1.1;
-            box-shadow: inset 0 0 0 1px rgba(184, 59, 42, 0.2);
+            line-height: 1.05;
+            box-shadow: inset 0 0 0 1px rgba(184, 59, 42, 0.15);
             transform: rotate(-6deg);
         }
 
-        /* 自訂下拉選單箭頭 */
+        /* 自訂下拉選單箭頭 (縮小版) */
         select.jp-select {
             appearance: none;
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238B6D4C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1em;
+            background-position: right 0.45rem center;
+            background-size: 0.85em;
+        }
+
+        /* 細緻捲軸（當菜色超過 6 道時可微幅滑動而不破版） */
+        .thin-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .thin-scroll::-webkit-scrollbar-track {
+            background: #F9F6F0;
+        }
+        .thin-scroll::-webkit-scrollbar-thumb {
+            background: #D5C7B2;
+            border-radius: 2px;
         }
 
         /* 淡入動畫 */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(3px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
+            animation: fadeIn 0.3s ease-out forwards;
         }
     </style>
 </head>
-<body class="min-h-screen py-6 px-4 sm:px-6 flex flex-col items-center justify-center bg-white">
+<body class="bg-white overflow-hidden">
 
-    <div id="lunchApp" class="w-full max-w-xl mx-auto">
+    <div id="lunchApp" class="w-full max-w-xl mx-auto widget-300 flex flex-col p-1.5 select-none">
         
-        <!-- 頂部木質橫樑裝飾 -->
-        <div class="h-3 bg-gradient-to-r from-[#6E5236] via-[#8B6D4C] to-[#6E5236] rounded-t-lg shadow-sm"></div>
+        <!-- 頂部木質橫樑裝飾 (濃縮為 6px) -->
+        <div class="h-1.5 bg-gradient-to-r from-[#6E5236] via-[#8B6D4C] to-[#6E5236] rounded-t shrink-0"></div>
 
-        <!-- 主菜單卡片 -->
-        <div class="kondate-card rounded-b-lg p-4 sm:p-7">
-            <div class="kondate-inner-border p-5 sm:p-8 rounded">
+        <!-- 主菜單卡片 (撐滿剩餘高度) -->
+        <div class="kondate-card rounded-b flex-1 flex flex-col p-1.5 overflow-hidden">
+            <div class="kondate-inner-border flex-1 flex flex-col justify-between px-3 py-2 rounded-sm overflow-hidden relative">
                 
-                <!-- 四角傳統裝飾紋 -->
-                <div class="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#8B6D4C]"></div>
-                <div class="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-[#8B6D4C]"></div>
-                <div class="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-[#8B6D4C]"></div>
-                <div class="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-[#8B6D4C]"></div>
+                <!-- 四角傳統裝飾紋 (縮小版) -->
+                <div class="absolute top-1 left-1 w-2 h-2 border-t border-l border-[#8B6D4C] pointer-events-none"></div>
+                <div class="absolute top-1 right-1 w-2 h-2 border-t border-r border-[#8B6D4C] pointer-events-none"></div>
+                <div class="absolute bottom-1 left-1 w-2 h-2 border-b border-l border-[#8B6D4C] pointer-events-none"></div>
+                <div class="absolute bottom-1 right-1 w-2 h-2 border-b border-r border-[#8B6D4C] pointer-events-none"></div>
 
-                <!-- 標題區塊 (日式風格表頭) -->
-                <header class="flex items-start justify-between border-b-2 border-stone-200 pb-6 mb-6 relative">
-                    <div class="flex flex-col space-y-2">
-                        <div class="inline-flex items-center space-x-2">
-                            <span class="px-2 py-0.5 text-xs tracking-widest bg-indigoJp text-white rounded-sm">校園營養午餐</span>
-                            <span class="text-xs text-stone-500 tracking-wider">學校代碼 {{ schoolId }}</span>
-                        </div>
-                        <h1 class="text-2xl sm:text-3xl font-bold tracking-widest text-sumi mt-1">
-                            今日午餐菜單
-                        </h1>
-                        <!-- 日期顯示 -->
-                        <p class="text-sm text-stone-600 tracking-widest flex items-center gap-1.5">
-                            <svg class="w-4 h-4 text-enji shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>{{ formattedChineseDate }}</span>
-                        </p>
-
-                        <!-- 日期切換工具列 -->
-                        <div class="pt-2 flex flex-wrap items-center gap-2">
-                            <input 
-                                type="date" 
-                                v-model="selectedDate" 
-                                @change="fetchMealInfo"
-                                class="text-xs bg-stone-50 border border-stone-300 rounded px-2.5 py-1.5 text-stone-700 focus:outline-none focus:border-indigoJp transition cursor-pointer"
-                                title="切換查詢日期"
-                            />
-                            <button 
-                                v-if="isDemoMode" 
-                                @click="fetchMealInfo" 
-                                class="text-xs px-2.5 py-1.5 bg-stone-200 hover:bg-stone-300 text-stone-700 rounded transition"
-                            >
-                                返回即時查詢
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- 右側直書與落款朱印 -->
-                    <div class="flex items-start space-x-3 select-none">
-                        <div class="hanko-stamp w-11 h-11 rounded-sm flex flex-col items-center justify-center text-xs tracking-tighter mt-1">
+                <!-- 頂部標題與日期控制列 (濃縮於單一橫列) -->
+                <header class="flex items-center justify-between border-b border-stone-200 pb-1.5 shrink-0 gap-2">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <!-- 落款朱印 (放大圖章與字體) -->
+                        <div class="hanko-stamp w-9 h-9 rounded-sm flex flex-col items-center justify-center text-[11px] tracking-tighter shrink-0">
                             <span>嚴選</span>
                             <span>食材</span>
                         </div>
-                        <div class="writing-vertical text-sm font-semibold text-stone-500 border-l border-stone-300 pl-2 py-1 hidden sm:block">
-                            健康美味營養均衡
+                        <div class="truncate">
+                            <div class="flex items-center gap-2">
+                                <h1 class="text-lg sm:text-xl font-bold tracking-widest text-sumi leading-tight truncate">
+                                    今日午餐菜單
+                                </h1>
+                                <span class="px-1.5 py-0.5 text-xs tracking-wider bg-indigoJp text-white rounded-sm shrink-0">
+                                    {{ schoolId }}
+                                </span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-stone-600 tracking-wider leading-tight mt-0.5 truncate">
+                                {{ formattedChineseDate }}
+                            </p>
                         </div>
+                    </div>
+
+                    <!-- 右側：日期切換 -->
+                    <div class="flex items-center gap-1 shrink-0">
+                        <input 
+                            type="date" 
+                            v-model="selectedDate" 
+                            @change="fetchMealInfo"
+                            class="text-xs sm:text-sm bg-stone-50 border border-stone-300 rounded px-2 py-1 text-stone-700 focus:outline-none focus:border-indigoJp transition cursor-pointer"
+                            title="切換查詢日期"
+                        />
                     </div>
                 </header>
 
-                <!-- 讀取中狀態 -->
-                <div v-if="loading" class="py-14 flex flex-col items-center justify-center space-y-4">
-                    <div class="relative w-12 h-12 flex items-center justify-center">
-                        <div class="absolute inset-0 rounded-full border-2 border-stone-200 border-t-enji animate-spin"></div>
-                        <span class="text-xs text-stone-500">餐</span>
-                    </div>
-                    <p class="text-sm text-stone-600 tracking-widest animate-pulse">正在為您載入今日菜單...</p>
-                </div>
-
-                <!-- 有供餐資料時顯示 -->
-                <div v-else-if="info.data && info.data.length > 0" class="animate-fade-in">
+                <!-- 中間主要內容區 (彈性高度，固定於 300px 內) -->
+                <main class="flex-1 flex flex-col justify-center overflow-hidden my-1">
                     
-                    <!-- 顯示範例模式提示條 -->
-                    <div v-if="isDemoMode" class="mb-5 px-3.5 py-2 bg-amber-50/90 border border-amber-200 rounded flex items-center justify-between text-xs text-amber-900">
-                        <span class="flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-enji"></span>
-                            目前為「菜單預覽模式」（示範資料）
-                        </span>
-                        <button @click="fetchMealInfo" class="underline hover:text-enji font-medium">重新查詢今日</button>
+                    <!-- 讀取中狀態 -->
+                    <div v-if="loading" class="flex flex-col items-center justify-center space-y-2">
+                        <div class="relative w-8 h-8 flex items-center justify-center">
+                            <div class="absolute inset-0 rounded-full border-2 border-stone-200 border-t-enji animate-spin"></div>
+                            <span class="text-xs text-stone-500">餐</span>
+                        </div>
+                        <p class="text-sm text-stone-500 tracking-widest animate-pulse">正在載入今日菜單...</p>
                     </div>
 
-                    <!-- 廚房 / 供餐單位選擇器 -->
-                    <div class="mb-6 bg-stone-50 p-4 rounded border border-stone-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <label for="KitchenName" class="text-sm font-semibold text-stone-700 tracking-widest flex items-center gap-2 shrink-0">
-                            <span class="w-1.5 h-4 bg-indigoJp rounded-sm inline-block"></span>
-                            午餐供餐單位：
-                        </label>
-                        <select 
-                            id="KitchenName" 
-                            v-model="selectedBatchdataId"
-                            class="jp-select w-full sm:w-auto sm:min-w-[240px] bg-white border border-stone-300 text-sumi text-sm rounded px-3.5 py-2 pr-9 focus:outline-none focus:border-indigoJp focus:ring-1 focus:ring-indigoJp transition cursor-pointer shadow-sm"
-                        >
-                            <option v-if="info.data.length > 1" value="000000" disabled>── 請選擇供餐廚房 ──</option>
-                            <option v-for="option in info.data" :key="option.BatchDataId" :value="option.BatchDataId">
-                                {{ option.KitchenName }}
-                            </option>
-                        </select>
-                    </div>
+                    <!-- 有供餐資料時顯示 -->
+                    <div v-else-if="info.data && info.data.length > 0" class="flex-1 flex flex-col justify-between overflow-hidden animate-fade-in">
+                        
+                        <!-- 廚房 / 供餐單位選擇器 (字體放大) -->
+                        <div class="bg-stone-50 px-2.5 py-1 rounded border border-stone-200/80 flex items-center justify-between gap-2 shrink-0 mb-1.5">
+                            <label for="KitchenName" class="text-sm font-bold text-stone-700 tracking-wider flex items-center gap-1.5 shrink-0">
+                                <span class="w-1 h-3.5 bg-indigoJp rounded-sm inline-block"></span>
+                                午餐供餐：
+                            </label>
+                            <select 
+                                id="KitchenName" 
+                                v-model="selectedBatchdataId"
+                                class="jp-select flex-1 max-w-[280px] bg-white border border-stone-300 text-sumi text-sm font-medium rounded px-2.5 py-0.5 pr-6 focus:outline-none focus:border-indigoJp transition cursor-pointer truncate"
+                            >
+                                <option v-if="info.data.length > 1" value="000000" disabled>── 請選擇供餐廚房 ──</option>
+                                <option v-for="option in info.data" :key="option.BatchDataId" :value="option.BatchDataId">
+                                    {{ option.KitchenName }}
+                                </option>
+                            </select>
+                        </div>
 
-                    <!-- 水墨風分隔線 -->
-                    <div class="relative flex py-2 items-center mb-5">
-                        <div class="flex-grow border-t border-stone-200"></div>
-                        <span class="flex-shrink mx-4 text-xs text-stone-400 tracking-[0.3em]">◆ 今日菜色明細 ◆</span>
-                        <div class="flex-grow border-t border-stone-200"></div>
-                    </div>
+                        <!-- 菜色讀取中 -->
+                        <div v-if="menuLoading" class="flex-1 flex items-center justify-center text-sm text-stone-500 tracking-widest">
+                            正在讀取菜色資料...
+                        </div>
 
-                    <!-- 菜色讀取中 -->
-                    <div v-if="menuLoading" class="py-10 text-center text-sm text-stone-500 tracking-widest">
-                        正在讀取菜色資料...
-                    </div>
-
-                    <!-- 顯示菜單列表 -->
-                    <div v-else-if="menu.data && menu.data.length > 0" class="space-y-3 my-2">
-                        <div 
-                            v-for="(dish, index) in menu.data" 
-                            :key="index"
-                            class="group flex items-center justify-between py-3 px-4 rounded bg-white hover:bg-stone-50/80 border-b border-dashed border-stone-300 hover:border-hinoki transition-all duration-200"
-                        >
-                            <div class="flex items-center space-x-3.5">
-                                <!-- 菜色類別標籤 (如：主食、主菜、副菜、湯品) -->
-                                <span 
-                                    v-if="dish.DishType !== undefined && dish.DishType !== ''" 
-                                    :class="getDishTypeBadgeClass(dish.DishType)"
-                                    class="text-xs px-2.5 py-1 rounded-sm font-medium tracking-widest shrink-0 shadow-sm"
+                        <!-- 顯示菜單列表 (雙欄網格，菜色字體放大) -->
+                        <div v-else-if="menu.data && menu.data.length > 0" class="flex-1 overflow-y-auto thin-scroll pr-0.5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1">
+                                <div 
+                                    v-for="(dish, index) in menu.data" 
+                                    :key="index"
+                                    class="group flex items-center justify-between py-1 px-2 rounded-sm bg-white hover:bg-stone-50 border-b border-dashed border-stone-200 hover:border-hinoki transition-colors"
                                 >
-                                    {{ dish.DishType }}
-                                </span>
-                                <span 
-                                    v-else 
-                                    class="text-xs px-2.5 py-1 rounded-sm font-medium tracking-widest bg-stone-200 text-stone-700 shrink-0"
-                                >
-                                    供餐廠商
-                                </span>
+                                    <div class="flex items-center space-x-2 min-w-0">
+                                        <!-- 菜色類別標籤 -->
+                                        <span 
+                                            v-if="dish.DishType !== undefined && dish.DishType !== ''" 
+                                            :class="getDishTypeBadgeClass(dish.DishType)"
+                                            class="text-xs px-1.5 py-0.5 rounded-sm font-medium tracking-wider shrink-0 leading-tight"
+                                        >
+                                            {{ dish.DishType }}
+                                        </span>
+                                        <span 
+                                            v-else 
+                                            class="text-xs px-1.5 py-0.5 rounded-sm font-medium tracking-wider bg-stone-200 text-stone-700 shrink-0 leading-tight"
+                                        >
+                                            供餐廠商
+                                        </span>
 
-                                <!-- 菜色名稱 -->
-                                <span class="text-base sm:text-lg font-semibold text-sumi group-hover:text-indigoJp transition-colors tracking-wide">
-                                    {{ dish.DishName }}
-                                </span>
+                                        <!-- 菜色名稱 -->
+                                        <span class="text-sm sm:text-base font-bold text-sumi group-hover:text-indigoJp transition-colors truncate">
+                                            {{ dish.DishName }}
+                                        </span>
+                                    </div>
+
+                                    <!-- 右側日式小紋點綴 -->
+                                    <span class="text-stone-300 group-hover:text-enji transition-colors text-xs shrink-0 ml-1">
+                                        ❀
+                                    </span>
+                                </div>
                             </div>
-
-                            <!-- 右側日式小紋點綴 -->
-                            <span class="text-stone-300 group-hover:text-enji transition-colors text-xs select-none">
-                                ❀
-                            </span>
                         </div>
                     </div>
 
-                    <!-- 底部操作按鈕區 -->
-                    <div class="mt-8 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <p class="text-xs text-stone-500 tracking-wider">
-                            ※ 實際菜色依當日廚房新鮮食材供應為準
-                        </p>
-                        <button 
-                            @click="queryDetail" 
-                            type="button" 
-                            class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-2.5 bg-indigoJp hover:bg-[#152945] text-white text-sm font-medium tracking-widest rounded shadow transition-all duration-200 hover:shadow-md active:scale-[0.99]"
-                        >
-                            <span>查看詳細資料</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                            </svg>
-                        </button>
+                    <!-- 本日無菜單狀態 (放大字體與圖示) -->
+                    <div v-else class="flex-1 flex flex-col items-center justify-center text-center px-2 animate-fade-in">
+                        <div class="flex items-center justify-center gap-3">
+                            <!-- 日式茶碗插畫 SVG -->
+                            <div class="w-11 h-11 text-stone-400 flex items-center justify-center rounded-full bg-stone-50 border border-stone-200 shrink-0">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 3c0 1.5-1.5 2-1.5 3.5S8 8.5 8 10M12 2c0 1.5-1.5 2-1.5 3.5S12 7.5 12 9M16 3c0 1.5-1.5 2-1.5 3.5S16 8.5 16 10" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 12h16c0 5-3.5 8-8 8s-8-3-8-8z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 20h6v1.5H9V20z" />
+                                </svg>
+                            </div>
+                            <div class="text-left">
+                                <div class="inline-block border-b-2 border-enji/60 pb-0.5">
+                                    <span class="text-base sm:text-lg font-bold tracking-[0.2em] text-sumi">本日無菜單</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-stone-500 tracking-wide mt-1">
+                                    所選日期（{{ selectedDate }}）尚無供餐紀錄或適逢假日。
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </main>
 
-                <!-- 本日無菜單狀態 (逢假日或尚未上傳) -->
-                <div v-else class="py-12 px-4 text-center animate-fade-in">
-                    <!-- 日式茶碗插畫 SVG -->
-                    <div class="mx-auto w-20 h-20 mb-4 text-stone-400 flex items-center justify-center rounded-full bg-stone-50 border border-stone-200">
-                        <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 3c0 1.5-1.5 2-1.5 3.5S8 8.5 8 10M12 2c0 1.5-1.5 2-1.5 3.5S12 7.5 12 9M16 3c0 1.5-1.5 2-1.5 3.5S16 8.5 16 10" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 12h16c0 5-3.5 8-8 8s-8-3-8-8z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 20h6v1.5H9V20z" />
-                        </svg>
-                    </div>
-
-                    <div class="inline-block border-b-2 border-enji/60 pb-1 mb-3">
-                        <span class="text-xl font-bold tracking-[0.25em] text-sumi">本日無菜單</span>
-                    </div>
-                    
-                    <p class="text-sm text-stone-500 tracking-wider max-w-sm mx-auto leading-relaxed mb-6">
-                        所選日期（{{ selectedDate }}）目前尚無供餐紀錄。<br>可能適逢例假日，或學校廚房尚未登錄當日菜單。
-                    </p>
-
-                    <!-- 提供預覽或前往官網按鈕，方便使用者隨時體驗日式菜單排版 -->
-                    <div class="flex flex-wrap items-center justify-center gap-3">
-                        <button 
-                            @click="loadDemoMenu" 
-                            type="button"
-                            class="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-300 rounded text-xs font-medium tracking-widest transition flex items-center gap-1.5 shadow-sm"
-                        >
-                            <span>❀ 預覽午餐菜單範例</span>
-                        </button>
-                        <button 
-                            @click="queryDetail" 
-                            type="button"
-                            class="px-4 py-2 bg-indigoJp hover:bg-[#152945] text-white rounded text-xs font-medium tracking-widest transition shadow-sm"
-                        >
-                            查看詳細資料
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 底部印記 -->
-                <footer class="mt-8 pt-4 border-t border-stone-200/80 flex items-center justify-between text-[11px] text-stone-400 tracking-widest">
-                    <span>教育部校園食材登錄平臺資料介接</span>
-                    <span>珍惜食物 · 感謝用膳</span>
+                <!-- 底部資訊列 -->
+                <footer class="pt-1.5 border-t border-stone-200/80 flex items-center justify-between gap-2 shrink-0">
+                    <span class="text-xs text-stone-500 tracking-wider truncate">
+                        ※ 教育部校園食材登錄平臺介接 · 實際菜色依當日供應為準
+                    </span>
                 </footer>
+
             </div>
         </div>
     </div>
@@ -341,8 +300,7 @@
                     },
                     selectedBatchdataId: '',
                     loading: true,
-                    menuLoading: false,
-                    isDemoMode: false
+                    menuLoading: false
                 };
             },
             computed: {
@@ -362,10 +320,6 @@
             watch: {
                 // 當使用者切換下拉選單的廚房 (selectedBatchdataId) 時，自動取得對應菜單
                 selectedBatchdataId(newVal) {
-                    if (this.isDemoMode) {
-                        this.updateDemoDishes(newVal);
-                        return;
-                    }
                     if (newVal && newVal !== "000000") {
                         this.getMenu();
                     }
@@ -378,7 +332,6 @@
                 // 取得當日供餐廚房清單
                 fetchMealInfo() {
                     this.loading = true;
-                    this.isDemoMode = false;
                     this.info = { data: [] };
                     this.menu = { data: [] };
                     this.selectedBatchdataId = '';
@@ -450,45 +403,6 @@
                     if (type.includes('湯')) return 'bg-[#8B6D4C] text-washi';       // 琥珀木色
                     if (type.includes('水果') || type.includes('點心') || type.includes('乳品')) return 'bg-[#B57C3E] text-washi'; // 金茶色
                     return 'bg-stone-700 text-washi';
-                },
-
-                // 假日無菜單時，提供一鍵載入範例菜單以預覽和風視覺效果
-                loadDemoMenu() {
-                    this.isDemoMode = true;
-                    this.info = {
-                        data: [
-                            { BatchDataId: 'DEMO_01', KitchenName: '本校自立午餐廚房' },
-                            { BatchDataId: 'DEMO_02', KitchenName: '第二中央餐廚（特約供餐）' }
-                        ]
-                    };
-                    this.selectedBatchdataId = 'DEMO_01';
-                    this.updateDemoDishes('DEMO_01');
-                },
-
-                updateDemoDishes(batchId) {
-                    if (batchId === 'DEMO_01') {
-                        this.menu = {
-                            data: [
-                                { DishType: '主食', DishName: '台梗九號香Q胚芽米飯' },
-                                { DishType: '主菜', DishName: '日式照燒嫩煎雞腿排' },
-                                { DishType: '副菜', DishName: '胡麻醬拌柴魚花椰菜' },
-                                { DishType: '蔬菜', DishName: '蒜香清炒在地高麗菜' },
-                                { DishType: '湯品', DishName: '味噌豆腐海帶芽湯' },
-                                { DishType: '水果', DishName: '季節鮮果（寶島蜜蘋）' }
-                            ]
-                        };
-                    } else {
-                        this.menu = {
-                            data: [
-                                { DishType: '主食', DishName: '黃金地瓜五穀飯' },
-                                { DishType: '主菜', DishName: '和風咖哩燉里肌豬肉' },
-                                { DishType: '副菜', DishName: '香煎蔥花厚蛋捲' },
-                                { DishType: '蔬菜', DishName: '薑絲清炒有機小松菜' },
-                                { DishType: '湯品', DishName: '白蘿蔔玉米排骨湯' },
-                                { DishType: '點心', DishName: '國產鮮乳一瓶' }
-                            ]
-                        };
-                    }
                 }
             }
         }).mount('#lunchApp');
