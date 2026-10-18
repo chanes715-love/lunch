@@ -259,11 +259,22 @@
                     </div>
                 </main>
 
-                <!-- 底部資訊列 -->
-                <footer class="pt-1.5 border-t border-stone-200/80 flex items-center justify-between gap-2 shrink-0">
-                    <span class="text-xs text-stone-500 tracking-wider truncate">
-                        ※ 教育部校園食材登錄平臺介接 · 實際菜色依當日供應為準
-                    </span>
+                <!-- 底部資訊列 (超連結至教育部校園食材登錄平臺) -->
+                <footer class="pt-1.5 border-t border-stone-200/80 flex items-center justify-start gap-2 shrink-0">
+                    <a 
+                        :href="`https://fatraceschool.k12ea.gov.tw/frontend/search.html?school=${schoolId}/`" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="group inline-flex items-center gap-1 text-xs sm:text-sm font-medium text-indigoJp hover:text-enji transition-colors tracking-wider truncate"
+                        title="前往教育部校園食材登錄平臺查看詳細資訊"
+                    >
+                        <span class="border-b border-indigoJp/40 group-hover:border-enji pb-0.5 truncate">
+                            教育部校園食材登錄平臺（查看詳細食材資訊）
+                        </span>
+                        <svg class="w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
                 </footer>
 
             </div>
